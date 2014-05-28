@@ -1009,7 +1009,7 @@ class PerforceLoginCommand(sublime_plugin.WindowCommand):
         else:
             self.pwd = self.pwd + chg
         stars = "*" * len(password)
-        self.window.show_input_panel("Project name", stars, self.on_input, self.getpwd, None)
+        self.window.show_input_panel("Enter Perforce Password", stars, self.on_input, self.getpwd, None)
 
     def on_input(self, password):
         if self.pwd.strip() == "":
