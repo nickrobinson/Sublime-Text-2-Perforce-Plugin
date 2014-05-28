@@ -997,8 +997,24 @@ class PerforceLogoutCommand(sublime_plugin.WindowCommand):
             pass
 
 class PerforceLoginCommand(sublime_plugin.WindowCommand):
+    pwd = ""
+
     def run(self):
-        self.window.show_input_panel("Enter Perforce Password", "", self.on_done, None, None)
+        self.window.show_input_panel("Enter Perforce Password", "", self.on_done, self.getpwd, None)
+
+    def getpwd(self, password):
+        chg = password.replace("*", "")
+        if  len(password) < len(self.pwd):
+            self.pwd = self.pwd[:len(password)]
+        else:
+            self.pwd = self.pwd + chg
+        stars = "*" * len(password)
+        self.window.show_input_panel("Project name", stars, self.on_input, self.getpwd, None)
+
+    def on_input(self, password):
+        if self.pwd.strip() == "":
+            self.panel("No password provided")
+            return
 
     def on_done(self, password):
         try:
